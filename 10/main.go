@@ -9,17 +9,17 @@ import (
 )
 
 func main() {
-	input := parseInput("test1.txt")
+	input := parseInput("data.txt")
 	input = append(input, 0)
 	sort.Ints(input)
 	charger := input[len(input)-1] + 3
 	input = append(input, charger)
 	//fmt.Println(calculateJoltDifference(input))
-	fmt.Println(calculateOmittion(input))
-	fmt.Println(findCombinations(input, 0))
+	optionalOnes := optionalAdapters(input)
+	fmt.Println(findCombinations(optionalOnes))
 }
 
-func findCombinations(adapters []int, total int) int {
+/*func findCombinations(adapters []int, total int) int {
 	canBeOmitted := calculateOmittion(adapters)
 	//fmt.Printf("adapters: %d, total: %d\n", adapters, total)
 	if canBeOmitted == 0 {
@@ -37,8 +37,30 @@ func findCombinations(adapters []int, total int) int {
 	}
 	return total
 }
+*/
 
-func calculateOmittion(adapters []int) int {
+func findCombinations(optionalAdapters []int) int {
+	total := 1
+	for _, adapter := range optionalAdapters {
+		if contains(optionalAdapters, adapter+1) && contains(optionalAdapters, adapter+2) {
+			total += 3 * total / 4
+		} else {
+			total += total
+		}
+	}
+	return total
+}
+
+func contains(arr []int, val int) bool {
+	for _, n := range arr {
+		if val == n {
+			return true
+		}
+	}
+	return false
+}
+
+func optionalAdapters(adapters []int) []int {
 	count := 0
 	canBeOmitted := []int{}
 	for i := len(adapters) - 3; i > 0; i-- {
@@ -50,8 +72,8 @@ func calculateOmittion(adapters []int) int {
 			count++
 		}
 	}
-	fmt.Println(canBeOmitted)
-	return count
+	//fmt.Println(canBeOmitted)
+	return canBeOmitted
 }
 
 func calculateJoltDifference(adapters []int) int {

@@ -7,9 +7,9 @@ import (
 )
 
 func main() {
-	circle := parseInput("test.txt")
+	circle := parseInput("test2.txt")
 	fmt.Println(circle.Cups)
-	shuffled := shuffleCups(1, circle)
+	shuffled := shuffleCups(1000, circle)
 	//fmt.Println(shuffled.getTwoCloseToCup(1))
 	fmt.Println(shuffled)
 }
@@ -20,7 +20,7 @@ func shuffleCups(n int, circle *Circle) *Circle {
 		currentCup := circle.peekFirstCup()
 		nextThreeCups := circle.getThreeAdjacentCups()
 		curLabel := currentCup.Label
-		fmt.Printf("curCp: %d, nxt: %d, curLbl: %d \n", currentCup, nextThreeCups, curLabel)
+		//fmt.Printf("curCp: %d, nxt: %d, curLbl: %d \n", currentCup, nextThreeCups, curLabel)
 		destinationIdx := -1
 		for true {
 			if curLabel == 1 {
@@ -33,7 +33,7 @@ func shuffleCups(n int, circle *Circle) *Circle {
 				break
 			}
 		}
-		fmt.Printf("dest: %d, cups: %d \n", destinationIdx, circle.Cups)
+		//fmt.Printf("dest: %d, cups: %d \n", destinationIdx, circle.Cups)
 		circle.addCupsClockwise(destinationIdx, nextThreeCups)
 		circle.nextCup()
 		order := circle.getCupOrder()
@@ -129,8 +129,10 @@ func parseInput(href string) *Circle {
 		cup := Cup{Label: val}
 		cups = append(cups, cup)
 	}
-	for i := 10; i <= 1000000; i++ {
-		cups = append(cups, Cup{Label: i})
-	}
+	/*
+		for i := 10; i <= 1000000; i++ {
+			cups = append(cups, Cup{Label: i})
+		}
+	*/
 	return &Circle{Cups: cups}
 }
